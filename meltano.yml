@@ -1,0 +1,26 @@
+version: 1
+project_id: 00f4f583-34d3-4411-94de-3a1a43d08b73
+send_anonymous_usage_stats: false
+default_environment: dev
+environments:
+- name: dev
+plugins:
+  extractors:
+  - name: tap-todoist
+    namespace: tap_todoist
+    pip_url: -e .
+    capabilities:
+    - catalog
+    - discover
+    settings_group_validation:
+    - - token
+    settings:
+    - name: token
+      kind: password
+      description: todoist API token
+  loaders:
+  - name: target-duckdb
+    variant: jwills
+    pip_url: target-duckdb~=0.4
+    config:
+      filepath: output/$MELTANO_ENVIRONMENT.duckdb
